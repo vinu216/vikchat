@@ -1,0 +1,6 @@
+{
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "entry": ["src/react-app/main.tsx", "src/server/index.ts"],
+  "project": ["src/**/*.{ts,tsx}"],
+  "ignoreDependencies": []
+}
