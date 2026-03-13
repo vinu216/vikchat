@@ -17,9 +17,59 @@ export function Footer() {
                 Vik<span className="text-gradient">Chat</span>
               </span>
             </Link>
-            <p className="text-sm leading-relaxed max-w-xs" style={{color:"rgba(240,235,224,0.35)",fontFamily:"'DM Sans',sans-serif"}}>
+            <p className="text-sm leading-relaxed max-w-xs mb-6" style={{color:"rgba(240,235,224,0.35)",fontFamily:"'DM Sans',sans-serif"}}>
               A private salon for spontaneous connection. Meet strangers, share moments, make friends — all with complete anonymity.
             </p>
+
+            {/* Social Media Icons */}
+            <div className="flex items-center gap-3">
+              {/* X (Twitter) */}
+              <a href="https://x.com/Vikchat116463" target="_blank" rel="noopener noreferrer"
+                style={{
+                  width:"32px", height:"32px", borderRadius:"8px",
+                  background:"rgba(201,168,76,0.08)", border:"1px solid rgba(201,168,76,0.15)",
+                  display:"flex", alignItems:"center", justifyContent:"center",
+                  transition:"all 0.2s"
+                }}
+                onMouseEnter={e => {(e.currentTarget as HTMLElement).style.background="rgba(201,168,76,0.18)"; (e.currentTarget as HTMLElement).style.borderColor="rgba(201,168,76,0.4)"}}
+                onMouseLeave={e => {(e.currentTarget as HTMLElement).style.background="rgba(201,168,76,0.08)"; (e.currentTarget as HTMLElement).style.borderColor="rgba(201,168,76,0.15)"}}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="rgba(201,168,76,0.7)">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.259 5.63 5.905-5.63zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                </svg>
+              </a>
+
+              {/* Instagram */}
+              <a href="https://www.instagram.com/vikchat1" target="_blank" rel="noopener noreferrer"
+                style={{
+                  width:"32px", height:"32px", borderRadius:"8px",
+                  background:"rgba(201,168,76,0.08)", border:"1px solid rgba(201,168,76,0.15)",
+                  display:"flex", alignItems:"center", justifyContent:"center",
+                  transition:"all 0.2s"
+                }}
+                onMouseEnter={e => {(e.currentTarget as HTMLElement).style.background="rgba(201,168,76,0.18)"; (e.currentTarget as HTMLElement).style.borderColor="rgba(201,168,76,0.4)"}}
+                onMouseLeave={e => {(e.currentTarget as HTMLElement).style.background="rgba(201,168,76,0.08)"; (e.currentTarget as HTMLElement).style.borderColor="rgba(201,168,76,0.15)"}}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(201,168,76,0.7)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                  <circle cx="12" cy="12" r="4"/>
+                  <circle cx="17.5" cy="6.5" r="1" fill="rgba(201,168,76,0.7)" stroke="none"/>
+                </svg>
+              </a>
+
+              {/* Telegram */}
+              <a href="https://t.me/vikchat03" target="_blank" rel="noopener noreferrer"
+                style={{
+                  width:"32px", height:"32px", borderRadius:"8px",
+                  background:"rgba(201,168,76,0.08)", border:"1px solid rgba(201,168,76,0.15)",
+                  display:"flex", alignItems:"center", justifyContent:"center",
+                  transition:"all 0.2s"
+                }}
+                onMouseEnter={e => {(e.currentTarget as HTMLElement).style.background="rgba(201,168,76,0.18)"; (e.currentTarget as HTMLElement).style.borderColor="rgba(201,168,76,0.4)"}}
+                onMouseLeave={e => {(e.currentTarget as HTMLElement).style.background="rgba(201,168,76,0.08)"; (e.currentTarget as HTMLElement).style.borderColor="rgba(201,168,76,0.15)"}}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="rgba(201,168,76,0.7)">
+                  <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.19 13.367l-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.958.192z"/>
+                </svg>
+              </a>
+            </div>
           </div>
 
           <div>
