@@ -6,6 +6,7 @@ import About from "@/react-app/pages/About";
 import Support from "@/react-app/pages/Support";
 import Terms from "@/react-app/pages/Terms";
 import Privacy from "@/react-app/pages/Privacy";
+import { VikChatAssistant } from "@/react-app/components/VikChatAssistant";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/terms" element={<Terms />} />
         <Route path="/privacy" element={<Privacy />} />
       </Routes>
+      <VikChatAssistant />
     </BrowserRouter>
   );
 }
