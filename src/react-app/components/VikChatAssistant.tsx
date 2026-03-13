@@ -5,18 +5,6 @@ interface Message {
   content: string;
 }
 
-const SYSTEM_PROMPT = `You are VikChat Assistant — a friendly, helpful AI assistant for VikChat website.
-VikChat is a free anonymous chat platform where users can talk to random strangers worldwide.
-Key features:
-- Text Chat: Instant anonymous chat with strangers, no signup needed
-- Video Chat: Face-to-face video calling with strangers
-- Spy Mode: Watch two strangers chat anonymously, ask one question
-- Zero Registration: No email, no password, just open and chat
-- 100% Free & Private & Anonymous
-Website: vikchat.onrender.com
-Always respond in the same language the user writes in (Hindi, English, or Hinglish).
-Keep responses short, friendly, and helpful. Max 3-4 sentences.`;
-
 export function VikChatAssistant() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
@@ -48,13 +36,10 @@ export function VikChatAssistant() {
     setLoading(true);
 
     try {
-      const res = await fetch("https://api.anthropic.com/v1/messages", {
+      const res = await fetch("/api/assistant", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          model: "claude-sonnet-4-20250514",
-          max_tokens: 300,
-          system: SYSTEM_PROMPT,
           messages: newMessages.map((m) => ({ role: m.role, content: m.content })),
         }),
       });
@@ -137,7 +122,7 @@ export function VikChatAssistant() {
             </div>
             <button
               onClick={() => setIsOpen(false)}
-              style={{ background: "none", border: "none", cursor: "pointer", color: "rgba(240,235,224,0.4)", fontSize: "18px", lineHeight: 1, padding: "2px" }}
+              style={{ background: "none", border: "none", cursor: "pointer", color: "rgba(240,235,224,0.4)", fontSize: "20px", lineHeight: 1, padding: "2px" }}
             >
               ×
             </button>
@@ -169,11 +154,11 @@ export function VikChatAssistant() {
                   background: "rgba(201,168,76,0.08)", border: "1px solid rgba(201,168,76,0.12)",
                   display: "flex", gap: "4px", alignItems: "center",
                 }}>
-                  {[0, 0.2, 0.4].map((delay, i) => (
+                  {[0, 1, 2].map((i) => (
                     <div key={i} style={{
                       width: "6px", height: "6px", borderRadius: "50%",
                       background: "rgba(201,168,76,0.6)",
-                      animation: `bounce 1.2s ${delay}s infinite`,
+                      animation: `vcBounce 1.2s ${i * 0.2}s infinite`,
                     }} />
                   ))}
                 </div>
@@ -196,10 +181,7 @@ export function VikChatAssistant() {
                     fontSize: "11px", padding: "4px 10px",
                     borderRadius: "20px", cursor: "pointer",
                     fontFamily: "'DM Sans', sans-serif",
-                    transition: "all 0.2s",
                   }}
-                  onMouseEnter={(e) => { (e.currentTarget.style.background = "rgba(201,168,76,0.15)"); }}
-                  onMouseLeave={(e) => { (e.currentTarget.style.background = "rgba(201,168,76,0.06)"); }}
                 >
                   {btn}
                 </button>
@@ -234,10 +216,7 @@ export function VikChatAssistant() {
                 background: "linear-gradient(135deg,#C9A84C,#E8C97A)",
                 border: "none", cursor: "pointer",
                 display: "flex", alignItems: "center", justifyContent: "center",
-                transition: "transform 0.2s",
               }}
-              onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.08)")}
-              onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
             >
               <svg width="13" height="13" viewBox="0 0 24 24" fill="#080810">
                 <path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/>
@@ -248,7 +227,7 @@ export function VikChatAssistant() {
       )}
 
       <style>{`
-        @keyframes bounce {
+        @keyframes vcBounce {
           0%, 60%, 100% { transform: translateY(0); }
           30% { transform: translateY(-5px); }
         }
