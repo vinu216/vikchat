@@ -588,6 +588,40 @@ app.post("/api/video/disconnect", async (c) => {
   return c.json({ ok: true });
 });
 
+
+// ── AI Assistant Proxy ───────────────────────────────────────────────────────
+
+app.post("/api/assistant", async (c) => {
+  try {
+    const body = await c.req.json<{ messages: { role: string; content: string }[] }>();
+    const apiKey = process.env.ANTHROPIC_API_KEY;
+    if (!apiKey) {
+      return c.json({ content: [{ type: "text", text: "Assistant unavailable right now." }] });
+    }
+    const response = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": apiKey,
+        "anthropic-version": "2023-06-01",
+      },
+      body: JSON.stringify({
+        model: "claude-haiku-4-5-20251001",
+        max_tokens: 300,
+        system: "You are VikChat Assistant — a friendly helpful AI for VikChat website. VikChat is a free anonymous chat platform. Features: Text Chat (instant anonymous chat with strangers), Video Chat (face-to-face), Spy Mode (watch two strangers chat and ask one question anonymously). Zero registration — no email, no password needed. 100% Free and Private. Reply in same language as user (Hindi/English/Hinglish). Keep answers short — 2-3 sentences max.",
+        messages: body.messages,
+      }),
+    });
+    const data = await response.json() as { content?: { type: string; text: string }[]; error?: { message: string } };
+    if (data.error) {
+      return c.json({ content: [{ type: "text", text: "Kuch error aa gaya. Thodi der baad try karo!" }] });
+    }
+    return c.json(data);
+  } catch {
+    return c.json({ content: [{ type: "text", text: "Server error. Dobara try karo!" }] });
+  }
+});
+
 // ── Static frontend ──────────────────────────────────────────────────────────
 
 app.use("/*", serveStatic({ root: path.join(__dirname, "../../dist/frontend") }));

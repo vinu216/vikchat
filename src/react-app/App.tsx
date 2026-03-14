@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Home from "@/react-app/pages/Home";
 import ChatRoom from "@/react-app/pages/ChatRoom";
 import VideoChat from "@/react-app/pages/VideoChat";
@@ -6,6 +6,13 @@ import About from "@/react-app/pages/About";
 import Support from "@/react-app/pages/Support";
 import Terms from "@/react-app/pages/Terms";
 import Privacy from "@/react-app/pages/Privacy";
+import { VikChatAssistant } from "@/react-app/components/VikChatAssistant";
+
+function AssistantWrapper() {
+  const location = useLocation();
+  if (location.pathname === "/chat" || location.pathname === "/video") return null;
+  return <VikChatAssistant />;
+}
 
 function App() {
   return (
@@ -19,6 +26,7 @@ function App() {
         <Route path="/terms" element={<Terms />} />
         <Route path="/privacy" element={<Privacy />} />
       </Routes>
+      <AssistantWrapper />
     </BrowserRouter>
   );
 }
