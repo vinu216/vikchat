@@ -594,29 +594,33 @@ app.post("/api/video/disconnect", async (c) => {
 app.post("/api/assistant", async (c) => {
   try {
     const body = await c.req.json<{ messages: { role: string; content: string }[] }>();
-    const apiKey = process.env.ANTHROPIC_API_KEY;
+    const apiKey = process.env.GROQ_API_KEY;
     if (!apiKey) {
       return c.json({ content: [{ type: "text", text: "Assistant unavailable right now." }] });
     }
-    const response = await fetch("https://api.anthropic.com/v1/messages", {
+    const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "x-api-key": apiKey,
-        "anthropic-version": "2023-06-01",
+        "Authorization": `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
-        model: "claude-haiku-4-5-20251001",
+        model: "llama-3.1-8b-instant",
         max_tokens: 300,
-        system: "You are VikChat Assistant — a friendly helpful AI for VikChat website. VikChat is a free anonymous chat platform. Features: Text Chat (instant anonymous chat with strangers), Video Chat (face-to-face), Spy Mode (watch two strangers chat and ask one question anonymously). Zero registration — no email, no password needed. 100% Free and Private. Reply in same language as user (Hindi/English/Hinglish). Keep answers short — 2-3 sentences max.",
-        messages: body.messages,
+        messages: [
+          {
+            role: "system",
+            content: "You are VikChat Assistant — a friendly helpful AI for VikChat website. VikChat is a free anonymous chat platform. Features: Text Chat (instant anonymous chat with strangers), Video Chat (face-to-face), Spy Mode (watch two strangers chat and ask one question anonymously). Zero registration — no email, no password needed. 100% Free and Private. Reply in same language as user (Hindi/English/Hinglish). Keep answers short — 2-3 sentences max.",
+          },
+          ...body.messages,
+        ],
       }),
     });
-    const data = await response.json() as { content?: { type: string; text: string }[]; error?: { message: string } };
-    if (data.error) {
+    const data = await response.json() as { choices?: { message: { content: string } }[]; error?: { message: string } };
+    if (data.error || !data.choices?.[0]) {
       return c.json({ content: [{ type: "text", text: "Kuch error aa gaya. Thodi der baad try karo!" }] });
     }
-    return c.json(data);
+    return c.json({ content: [{ type: "text", text: data.choices[0].message.content }] });
   } catch {
     return c.json({ content: [{ type: "text", text: "Server error. Dobara try karo!" }] });
   }
